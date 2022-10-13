@@ -62,8 +62,8 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_session_token: ${{ secrets.AWS_SESSION_TOKEN }}
           use_existing_version_if_available: true
-          application_name: SWKOM
-          environment_name: Swkom-env
+          application_name: swkom-gruppe5
+          environment_name: Swkomgruppe5-env-2
           version_label: Sample Application
           region: us-east-1
           deployment_package: openapi-spring-1.22.1.jar
