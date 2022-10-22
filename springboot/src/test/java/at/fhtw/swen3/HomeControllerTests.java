@@ -3,7 +3,6 @@ package at.fhtw.swen3;
 import at.fhtw.swen3.services.impl.HomeController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
