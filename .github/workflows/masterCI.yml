@@ -64,6 +64,6 @@ jobs:
           use_existing_version_if_available: true
           application_name: SWKOM_Gruppe5
           environment_name: Swkomgruppe5-env
-          version_label: Sample Application
+          version_label: ${{github.SHA}}
           region: us-east-1
-          deployment_package: springboot/target/openapi-spring-1.22.1.jar
+          deployment_package: openapi-spring-1.22.1.jar
