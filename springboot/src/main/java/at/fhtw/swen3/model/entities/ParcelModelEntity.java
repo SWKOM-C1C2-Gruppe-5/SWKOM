@@ -1,7 +1,7 @@
 package at.fhtw.swen3.model.entities;
 
-import at.fhtw.swen3.model.entities.HopArrivalModelEntity;
-import at.fhtw.swen3.model.entities.RecipientModelEntity;
+import at.fhtw.swen3.persistence.entity.HopArrivalEntity;
+import at.fhtw.swen3.persistence.entity.RecipientEntity;
 import at.fhtw.swen3.services.dto.TrackingInformation;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,8 +45,8 @@ public class ParcelModelEntity {
     private TrackingInformation.StateEnum state;
 
     @OneToMany(mappedBy = "visitedHops")
-    private List<HopArrivalModelEntity> visitedHops = new ArrayList<>();
+    private List<HopArrivalEntity> visitedHops = new ArrayList<>();
 
     @OneToMany(mappedBy = "futureHops")
-    private List<HopArrivalModelEntity> futureHops = new ArrayList<>();
+    private List<HopArrivalEntity> futureHops = new ArrayList<>();
 }

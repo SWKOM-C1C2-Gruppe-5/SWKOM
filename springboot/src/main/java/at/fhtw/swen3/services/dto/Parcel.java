@@ -8,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 import javax.annotation.Generated;
@@ -18,6 +22,8 @@ import javax.annotation.Generated;
 
 @JsonTypeName("parcel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2022-09-22T12:14:07.669603Z[Etc/UTC]")
+@Getter
+@Setter
 public class Parcel {
 
   @JsonProperty("weight")
