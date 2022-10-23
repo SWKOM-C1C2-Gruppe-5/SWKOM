@@ -1,7 +1,7 @@
 package at.fhtw.swen3.model.entities;
 
-import at.fhtw.swen3.persistence.entity.HopArrivalEntity;
-import at.fhtw.swen3.persistence.entity.RecipientEntity;
+import at.fhtw.swen3.model.entities.HopArrivalModelEntity;
+import at.fhtw.swen3.model.entities.RecipientModelEntity;
 import at.fhtw.swen3.services.dto.TrackingInformation;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,12 +28,12 @@ public class ParcelModelEntity {
     @OneToOne
     @JoinColumn(name = "fk_recipient")
     @NotNull(message = "Recipient can not be null!")
-    private RecipientEntity recipient;
+    private RecipientModelEntity recipient;
 
     @OneToOne
     @JoinColumn(name = "fk_sender")
     @NotNull(message = "Sender can not be null!")
-    private RecipientEntity sender;
+    private RecipientModelEntity sender;
 
     @Column
     @Pattern(regexp = "^[A-Z0-9]{9}$")
@@ -45,8 +45,8 @@ public class ParcelModelEntity {
     private TrackingInformation.StateEnum state;
 
     @OneToMany(mappedBy = "visitedHops")
-    private List<HopArrivalEntity> visitedHops = new ArrayList<>();
+    private List<HopArrivalModelEntity> visitedHops = new ArrayList<>();
 
     @OneToMany(mappedBy = "futureHops")
-    private List<HopArrivalEntity> futureHops = new ArrayList<>();
+    private List<HopArrivalModelEntity> futureHops = new ArrayList<>();
 }

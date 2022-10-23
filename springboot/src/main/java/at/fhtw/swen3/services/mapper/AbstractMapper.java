@@ -29,4 +29,12 @@ public abstract class AbstractMapper<EN, DTO, DAL> implements BaseMapper<EN, DTO
         }
         return targets;
     }
+
+    public List<EN> dalToEntity(Collection<DAL> targets) {
+        List<EN> sources = new ArrayList<>();
+        for (DAL t : targets) {
+            sources.add(dalToEntity(t));
+        }
+        return sources;
+    }
 }

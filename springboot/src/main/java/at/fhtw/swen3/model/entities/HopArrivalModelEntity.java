@@ -1,6 +1,6 @@
 package at.fhtw.swen3.model.entities;
 
-import at.fhtw.swen3.persistence.entity.ParcelEntity;
+import at.fhtw.swen3.model.entities.ParcelModelEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,9 +35,9 @@ public class HopArrivalModelEntity {
 
     @ManyToOne
     @JoinColumn(name = "fk_visitedHops")
-    private ParcelEntity visitedHops;
+    private ParcelModelEntity visitedHops;
 
     @ManyToOne
     @JoinColumn(name = "fk_futureHops")
-    private ParcelEntity futureHops;
+    private ParcelModelEntity futureHops;
 }
