@@ -1,6 +1,6 @@
 package at.fhtw.swen3;
 
-import at.fhtw.swen3.services.impl.HomeController;
+import at.fhtw.swen3.controller.rest.HomeController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

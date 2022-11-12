@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractMapper<EN, DTO, DAL> implements BaseMapper<EN, DTO, DAL> {
+public abstract class AbstractMapper<EN, DTO> implements BaseMapper<EN, DTO> {
     public List<DTO> entityToDto(Collection<EN> sources) {
         List<DTO> targets = new ArrayList<>();
         for (EN s : sources) {
@@ -17,23 +17,6 @@ public abstract class AbstractMapper<EN, DTO, DAL> implements BaseMapper<EN, DTO
         List<EN> sources = new ArrayList<>();
         for (DTO t : targets) {
             sources.add(dtoToEntity(t));
-        }
-        return sources;
-    }
-
-
-    public List<DAL> entityToDal(Collection<EN> sources) {
-        List<DAL> targets = new ArrayList<>();
-        for (EN s : sources) {
-            targets.add(entityToDal(s));
-        }
-        return targets;
-    }
-
-    public List<EN> dalToEntity(Collection<DAL> targets) {
-        List<EN> sources = new ArrayList<>();
-        for (DAL t : targets) {
-            sources.add(dalToEntity(t));
         }
         return sources;
     }
