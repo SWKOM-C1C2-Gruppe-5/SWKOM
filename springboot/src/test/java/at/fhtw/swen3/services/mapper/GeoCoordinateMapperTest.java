@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class GeoCoordinateMapperTest
 {
+    /*
     @Autowired
     private TruckRepository truckRepository;
 
@@ -19,6 +20,7 @@ class GeoCoordinateMapperTest
     void findAllTrucks() {
         truckRepository.findAll();
     }
+     */
 
     @Test
     void testEntityToDto()
