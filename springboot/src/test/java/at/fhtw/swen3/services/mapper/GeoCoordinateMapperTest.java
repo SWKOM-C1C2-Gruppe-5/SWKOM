@@ -1,42 +1,26 @@
 package at.fhtw.swen3.services.mapper;
 
-import at.fhtw.swen3.model.entities.GeoCoordinateModelEntity;
-import at.fhtw.swen3.persistence.entity.GeoCoordinateEntity;
+import at.fhtw.swen3.persistence.entities.GeoCoordinateEntity;
+import at.fhtw.swen3.persistence.repositories.TruckRepository;
 import at.fhtw.swen3.services.dto.GeoCoordinate;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class GeoCoordinateMapperTest
 {
-    @Test
-    void testEntityToDal()
-    {
-        GeoCoordinateEntity geoCoordinateEntity = new GeoCoordinateEntity();
-        geoCoordinateEntity.setLat(123.555);
-        geoCoordinateEntity.setLon(33.88);
-
-        GeoCoordinateModelEntity geoCoordinateModelEntity = GeoCoordinateMapper.INSTANCE.entityToDal(geoCoordinateEntity);
-
-        Assertions.assertEquals(geoCoordinateModelEntity.getLat(), geoCoordinateEntity.getLat());
-        Assertions.assertEquals(geoCoordinateModelEntity.getLon(), geoCoordinateEntity.getLon());
-    }
+    /*
+    @Autowired
+    private TruckRepository truckRepository;
 
     @Test
-    void testDalToEntity()
-    {
-        GeoCoordinateModelEntity geoCoordinateModelEntity = new GeoCoordinateModelEntity();
-        geoCoordinateModelEntity.setLat(22.12);
-        geoCoordinateModelEntity.setLon(888.555);
-
-        GeoCoordinateEntity geoCoordinateEntity = GeoCoordinateMapper.INSTANCE.dalToEntity(geoCoordinateModelEntity);
-
-        Assertions.assertEquals(geoCoordinateEntity.getLat(), geoCoordinateModelEntity.getLat());
-        Assertions.assertEquals(geoCoordinateEntity.getLon(), geoCoordinateModelEntity.getLon());
+    void findAllTrucks() {
+        truckRepository.findAll();
     }
+     */
 
     @Test
     void testEntityToDto()

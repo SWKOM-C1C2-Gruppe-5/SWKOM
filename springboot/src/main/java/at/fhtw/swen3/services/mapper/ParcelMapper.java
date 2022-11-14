@@ -1,13 +1,14 @@
 package at.fhtw.swen3.services.mapper;
 
-import at.fhtw.swen3.model.entities.ParcelModelEntity;
-import at.fhtw.swen3.persistence.entity.ParcelEntity;
+import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import at.fhtw.swen3.services.dto.Parcel;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 @Mapper
-public interface ParcelMapper extends BaseMapper<ParcelEntity, Parcel, ParcelModelEntity> {
+@Component
+public interface ParcelMapper extends BaseMapper<ParcelEntity, Parcel> {
 
     ParcelMapper INSTANCE = Mappers.getMapper(ParcelMapper.class);
 

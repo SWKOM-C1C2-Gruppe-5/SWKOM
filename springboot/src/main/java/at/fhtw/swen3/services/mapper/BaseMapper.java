@@ -3,9 +3,7 @@ package at.fhtw.swen3.services.mapper;
 import org.mapstruct.Mapper;
 
 
-public interface BaseMapper<EN, DTO, DAL> {
+public interface BaseMapper<EN, DTO> {
     DTO entityToDto(EN entity);
     EN dtoToEntity(DTO dto);
-    DAL entityToDal(EN entity);
-    EN dalToEntity(DAL dal);
 }
