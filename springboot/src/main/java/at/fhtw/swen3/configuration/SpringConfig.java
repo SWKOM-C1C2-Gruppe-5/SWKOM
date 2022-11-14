@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringConfig {
+    /*
     @Bean
     public ParcelServiceImpl parcelService(ParcelRepository parcelRepository) {
         return new ParcelServiceImpl(parcelRepository);
@@ -18,4 +19,5 @@ public class SpringConfig {
     public WarehouseServiceImpl warehouseService(WarehouseRepository warehouseRepository) {
         return new WarehouseServiceImpl(warehouseRepository);
     }
+     */
 }
