@@ -62,17 +62,15 @@ class GeoCoordinateMapperTest
     }
 
     @Test
-    void openStreetEncodingProxyTest() throws IOException, URISyntaxException, InterruptedException {
+    void openStreetEncodingProxyTest() {
         Address address = new Address();
         address.setStreet("87/Aspernstraße");
         address.setPostalCode("1220");
         address.setCity("Vienna");
         address.setCountry("Austria");
 
-        OpenStreetEncodingProxy openStreetEncodingProxy = new OpenStreetEncodingProxy();
-
-        openStreetEncodingProxy.encodeAddress(address);
-
+        GeoCoordinateEntity geo = new OpenStreetEncodingProxy().encodeAddress(address);
+        System.out.println("lat: " + geo.getLat() + ", lon: " + geo.getLon());
     }
 
 
