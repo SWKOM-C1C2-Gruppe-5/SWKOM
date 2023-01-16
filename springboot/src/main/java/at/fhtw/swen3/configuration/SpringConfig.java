@@ -19,7 +19,7 @@ public class SpringConfig {
     }
 
     @Bean
-    public WarehouseServiceImpl warehouseService(WarehouseRepository warehouseRepository) {
-        return new WarehouseServiceImpl(warehouseRepository);
+    public WarehouseServiceImpl warehouseService(WarehouseRepository warehouseRepository, MyValidator validator) {
+        return new WarehouseServiceImpl(warehouseRepository, validator);
     }
 }
