@@ -22,7 +22,7 @@ public class RecipientEntity {
     private String name;
 
     @Column
-    @Pattern(regexp = "[A-Z ][a-zA-Z ]+\\s[0-9a-z\\/\\-]+")
+    @Pattern(regexp = "[A-Z ][a-zA-Zß ]+\\s[0-9a-z\\/\\-]+")
     @NotNull(message = "Street can not be null!")
     private String street;
 

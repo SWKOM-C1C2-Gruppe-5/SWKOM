@@ -1,5 +1,7 @@
 package at.fhtw.swen3.services.validation;
 
+import at.fhtw.swen3.services.exceptions.BLException;
+import at.fhtw.swen3.services.exceptions.BLValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +20,15 @@ public class MyValidator {
         return getValidatorFactory().getValidator();
     }
 
-    public <T> void validate(T o) {
+    public <T> void validate(T o) throws BLValidationException {
         Validator validator = getValidator();
         Set<ConstraintViolation<T>> violations = validator.validate(o);
         violations.forEach(v -> log.error(v.getMessage()));
         if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
+            for (ConstraintViolation<T> v : violations) {
+                log.error(v.getMessage());
+                throw new BLValidationException( null, v.getMessage());
+            }
         }
     }
 }

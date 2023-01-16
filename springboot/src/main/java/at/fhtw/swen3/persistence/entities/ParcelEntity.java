@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class ParcelEntity {
     private long id;
 
     @Column
-    @Pattern(regexp = "[0-9]*\\.?[0-9]*[1-9]")
+    @DecimalMin(value = "1.0",message ="weight must be at least 1.0")
     @NotNull(message = "Weight can not be null!")
     private Float weight;
 
