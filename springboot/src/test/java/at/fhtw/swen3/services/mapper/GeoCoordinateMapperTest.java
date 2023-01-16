@@ -10,6 +10,8 @@ import at.fhtw.swen3.persistence.repositories.TruckRepository;
 import at.fhtw.swen3.services.dto.GeoCoordinate;
 import at.fhtw.swen3.services.dto.Truck;
 import at.fhtw.swen3.services.dto.Warehouse;
+import at.fhtw.swen3.services.exceptions.BLNotFoundException;
+import at.fhtw.swen3.services.exceptions.BLValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,7 @@ import java.net.URISyntaxException;
 
 @SpringBootTest
 @Transactional
+@Slf4j
 class GeoCoordinateMapperTest
 {
 
@@ -69,8 +72,13 @@ class GeoCoordinateMapperTest
         address.setCity("Vienna");
         address.setCountry("Austria");
 
-        GeoCoordinateEntity geo = new OpenStreetEncodingProxy().encodeAddress(address);
-        System.out.println("lat: " + geo.getLat() + ", lon: " + geo.getLon());
+        try {
+            GeoCoordinateEntity geo = new OpenStreetEncodingProxy().encodeAddress(address);
+            System.out.println("lat: " + geo.getLat() + ", lon: " + geo.getLon());
+        } catch (BLValidationException e) {
+            log.error("The operation failed due to an error: {}", e.getMessage());
+        }
+
     }
 
 
