@@ -3,10 +3,12 @@ package at.fhtw.swen3.gps.service.impl;
 import at.fhtw.swen3.gps.service.Address;
 import at.fhtw.swen3.gps.service.GeoEncodingService;
 import at.fhtw.swen3.persistence.entities.GeoCoordinateEntity;
+import at.fhtw.swen3.services.exceptions.BLValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,9 +18,10 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Slf4j
+@Service
 public class OpenStreetEncodingProxy implements GeoEncodingService {
     @Override
-    public GeoCoordinateEntity encodeAddress(Address a) {
+    public GeoCoordinateEntity encodeAddress(Address a) throws BLValidationException {
         GeoCoordinateEntity geo = new GeoCoordinateEntity();
         try {
             StringBuilder urlBuilder = new StringBuilder("https://nominatim.openstreetmap.org/search?");
@@ -40,8 +43,9 @@ public class OpenStreetEncodingProxy implements GeoEncodingService {
                 geo.setLat(jsonObject.getDouble("lat"));
                 geo.setLon(jsonObject.getDouble("lon"));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            log.error("The address of sender or receiver was not found.");
+            throw new BLValidationException( e,"The address of sender or receiver was not found." );
         }
         return geo;
     }
