@@ -1,22 +1,19 @@
 
 package at.fhtw.swen3.services.impl;
 
-import at.fhtw.swen3.gps.service.Address;
-import at.fhtw.swen3.gps.service.GeoEncodingService;
-import at.fhtw.swen3.gps.service.impl.OpenStreetEncodingProxy;
-import at.fhtw.swen3.persistence.entities.GeoCoordinateEntity;
 import at.fhtw.swen3.persistence.entities.ParcelEntity;
 import at.fhtw.swen3.persistence.repositories.ParcelRepository;
 import at.fhtw.swen3.persistence.repositories.RecipientRepository;
 import at.fhtw.swen3.services.dto.NewParcelInfo;
 import at.fhtw.swen3.services.dto.Parcel;
 import at.fhtw.swen3.services.dto.TrackingInformation;
+import at.fhtw.swen3.services.exceptions.BLException;
+import at.fhtw.swen3.services.exceptions.BLNotFoundException;
 import at.fhtw.swen3.services.exceptions.BLValidationException;
 import at.fhtw.swen3.services.mapper.ParcelMapper;
 import at.fhtw.swen3.services.validation.MyValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
@@ -115,60 +112,91 @@ public class ParcelServiceImpl implements ParcelService {
 
 
     @Override
-    public NewParcelInfo transferParcel(String trackingId, Parcel parcel) {
-/*
+    public NewParcelInfo transferParcel(String trackingId, Parcel parcel) throws BLException {
+
         //map dto to entity
-        ParcelEntity parcelEntity = parcelMapper.dtoToEntity(parcel);
+        ParcelEntity parcelEntity = ParcelMapper.INSTANCE.dtoToEntity(parcel);
         log.info("parcelDto mapped to parcelEntity");
 
-        // Validate the data
-        parcelValidator.validate(parcelEntity);
-        log.info("parcel validated");
+        //check if trackingid already exists
+        if(parcelRepository.findByTrackingId(trackingId) != null) {
+            throw new BLException(null, "A parcel with the specified trackingID is already in the system.");
+        }
 
         // Reuse the existing tracking ID
+        log.info("trackingID created: " + trackingId);
         parcelEntity.setTrackingId(trackingId);
 
+        // Set parcel state to "Transfered"
+        parcelEntity.setState(TrackingInformation.StateEnum.TRANSFERRED);
+        log.info("parcel state set to Transfered");
+
+        // Validate the data
+        try {
+            validator.validate(parcelEntity);
+        } catch (BLValidationException e) {
+            log.error("The BLValidation failed: {}", e.getMessage());
+            throw new BLValidationException(e, "Validation failed!");
+        }
+        log.info("parcel validated");
+
+
+        /*
         // Get GPS coordinates for package sender/recipient
         GeoEncodingService geoEncodingService = new OpenStreetEncodingProxy();
         parcel.setSenderCoordinates(geoEncodingService.encodeAddress(parcel.getSender()));
         parcel.setRecipientCoordinates(geoEncodingService.encodeAddress(parcel.getRecipient()));
+         */
 
         // Predict future hops
-        parcelEntity.setFutureHops(predictRoute(parcel));
+        //parcelEntity.setFutureHops(predictRoute(parcel));
 
-        // Set parcel state to "Pickup"
-        parcelEntity.setState(TrackingInformation.StateEnum.PICKUP);
-        log.info("parcel state set to Pickup");
+        recipientRepository.save(parcelEntity.getRecipient());
+        recipientRepository.save(parcelEntity.getSender());
 
         // Write data to database
         parcelRepository.save(parcelEntity);
 
         // Return Tracking ID
         return new NewParcelInfo().trackingId(trackingId);
-
- */
-        return null;
     }
 
+    @Override
+    public void reportParcelDelivery(String trackingId) throws BLException {
 
+        ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
+        if (parcelEntity == null) {
+            log.error("Parcel does not exist with this tracking ID {}", trackingId);
+            throw new BLNotFoundException(null, "Parcel does not exist with this tracking ID: " + trackingId);
+        }
+        log.info("Parcel state:" + parcelEntity.getState());
 
+        parcelEntity.setState(TrackingInformation.StateEnum.DELIVERED);
+        log.info("Parcel state after change:" + parcelEntity.getState());
 
-/*
-    public void createNewParcel(Parcel parcel) {
+        try {
+            parcelRepository.setStateToDelivered(trackingId);
+            log.info("Parcel state after save:" + parcelEntity.getState());
+        } catch (Exception e) {
+            log.error("The operation failed due to an error: {}", e.getMessage());
+            throw new BLException(null, "The operation failed due to an error: " + e.getMessage());
+        }
 
-        //1. map dto to entity
-        ParcelEntity parcelEntity = parcelMapper.dtoToEntity(parcel);
-        log.info("parcelDto mapped to parcelEntity");
-
-        //2. validate entity
-        parcelValidator.validate(parcelEntity);
-        log.info("parcelEntity validated");
-
-        //3. save entity
-        parcelRepository.save(parcelEntity);
-
-        log.info("parcelEntity saved");
     }
-*/
+
+    @Override
+    public TrackingInformation trackParcel(String trackingId) throws BLNotFoundException {
+        TrackingInformation trackingInformation = new TrackingInformation();
+
+        ParcelEntity parcelEntity = parcelRepository.findByTrackingId(trackingId);
+        if (parcelEntity != null) {
+            trackingInformation.setState(parcelEntity.getState());
+        }
+        else{
+            throw new BLNotFoundException(null, "Parcel does not exist with this tracking ID: " + trackingId);
+        }
+
+        return trackingInformation;
+    }
 }
 
