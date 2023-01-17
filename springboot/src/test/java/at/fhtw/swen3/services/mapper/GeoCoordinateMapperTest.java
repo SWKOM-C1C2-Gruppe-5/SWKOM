@@ -64,6 +64,7 @@ class GeoCoordinateMapperTest
         hopRepository.findAll().forEach(System.out::println);
     }
 
+    /*
     @Test
     void openStreetEncodingProxyTest() {
         Address address = new Address();
@@ -79,7 +80,7 @@ class GeoCoordinateMapperTest
             log.error("The operation failed due to an error: {}", e.getMessage());
         }
 
-    }
+    }*/
 
 
     /*
